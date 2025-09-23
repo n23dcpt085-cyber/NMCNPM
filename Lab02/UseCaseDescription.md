@@ -1,4 +1,5 @@
 # Use Case
+<<<<<<< HEAD
 1. Use Case: Đặt phòng
     Tên: Đặt phòng
     Tác nhân: Khách hàng
@@ -30,3 +31,5 @@
     Ngoại lệ:
     Thông tin thẻ sai → báo lỗi.
     Không đủ tiền → từ chối thanh toán.
+=======
+>>>>>>> c775f4b953046e63f52015687e04a98cf4f19a43
