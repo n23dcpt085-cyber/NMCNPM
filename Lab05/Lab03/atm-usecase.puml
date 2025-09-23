@@ -1,0 +1,25 @@
+@startuml
+actor Customer
+actor "Bank System" as Bank
+
+rectangle ATM {
+  (Insert Card)
+  (Enter PIN)
+  (Authenticate) 
+  (Withdraw Cash)
+  (Check Balance)
+  (Dispense Cash)
+  (Print Receipt)
+}
+
+Customer --> (Insert Card)
+Customer --> (Enter PIN)
+(Enter PIN) ..> (Authenticate) : <<include>>
+(Withdraw Cash) ..> (Authenticate) : <<include>>
+(Withdraw Cash) ..> (Check Balance) : <<include>>
+(Withdraw Cash) --> (Dispense Cash)
+(Withdraw Cash) --> (Print Receipt)
+
+Authenticate --> Bank : verifyPIN()
+Check Balance --> Bank : checkBalance(account, amount)
+@enduml
