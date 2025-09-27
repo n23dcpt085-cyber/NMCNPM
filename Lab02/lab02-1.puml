@@ -1,0 +1,21 @@
+@startuml
+actor Receptionist
+participant "Hotel System" as System
+participant Room
+participant "Payment System" as Payment
+participant Housekeeping
+
+Receptionist -> System: Tra cứu mã đặt phòng
+System --> Receptionist: Trả thông tin đặt phòng
+
+== Check-in ==
+Receptionist -> System: Gán phòng cho khách
+System -> Room: Cập nhật trạng thái = Occupied
+
+== Check-out ==
+Receptionist -> System: Yêu cầu tổng hợp chi phí
+System -> Payment: Thu tiền
+Payment --> System: Xác nhận đã thanh toán
+System -> Room: Cập nhật trạng thái = Cleaning
+System -> Housekeeping: Thông báo dọn phòng
+@enduml
