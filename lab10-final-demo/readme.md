@@ -12,13 +12,13 @@ Quản lý tiến độ dự án bằng Jira, lưu trữ code & artifacts trên 
 
 👥 Thành viên nhóm
 
-Nguyễn Văn A – Leader, Developer
+Nguyen Lam Bao Khuyen – Leader, Developer
 
-Trần Thị B – Developer
+Nguyen Lam Bao Khuyen – Developer
 
-Lê Văn C – Tester
+Nguyen Lam Bao Khuyen – Tester
 
-Phạm Thị D – Documenter
+Nguyen Lam Bao Khuyen – Documenter
 
 🎯 Use Case chính
 
