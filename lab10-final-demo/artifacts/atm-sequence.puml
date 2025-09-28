@@ -1,0 +1,41 @@
+@startuml
+actor Customer
+participant ATM
+participant "Card Reader" as CardReader
+participant "Cash Dispenser" as Dispenser
+participant "Receipt Printer" as Printer
+participant "Bank System" as Bank
+
+Customer -> ATM: insertCard()
+ATM -> CardReader: readCard()
+Customer -> ATM: enterPIN(pin)
+ATM -> Bank: verifyPIN(cardNo, hashedPin)
+alt PIN valid
+  Bank --> ATM: PIN_OK
+  Customer -> ATM: selectWithdraw(amount)
+  ATM -> Bank: checkBalanceAndReserve(cardNo, amount)
+  alt Sufficient balance
+    Bank --> ATM: OK(accountId, balance)
+    ATM -> Bank: debitAccount(accountId, amount)
+    Bank --> ATM: debitSuccess(txId, balanceAfter)
+    ATM -> Dispenser: dispense(amount)
+    Dispenser --> ATM: dispensed
+    ATM -> Printer: printReceipt(txId, details)
+    Printer --> ATM: printed
+    ATM -> Bank: logTransaction(txId, details)
+    ATM -> Customer: display("Please take your cash and receipt")
+  else Insufficient balance
+    Bank --> ATM: InsufficientFunds
+    ATM -> Customer: display("Insufficient funds")
+  end
+else PIN invalid
+  Bank --> ATM: PIN_FAIL
+  ATM -> ATM: incrementFailedCount()
+  alt failedCount >= 3
+    ATM -> Bank: reportRetainCard(cardNo)
+    ATM -> Customer: display("Card retained. Contact bank.")
+  else
+    ATM -> Customer: display("Invalid PIN. Try again.")
+  end
+end
+@enduml
