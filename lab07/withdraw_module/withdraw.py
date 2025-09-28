@@ -1,6 +1,27 @@
 # withdraw.py
-from withdraw_module.db import get_connection
-
+from .db import get_connection
+def verify_pin(card_no, pin):
+    """Xác thực mã PIN"""
+    conn = get_connection()
+    cur = conn.cursor()
+    
+    try:
+        # Sửa tên cột cho phù hợp với database của bạn
+        cur.execute("""
+            SELECT COUNT(*) 
+            FROM cards 
+            WHERE card_no=%s AND pin_code=%s
+        """, (card_no, pin))  # Thử thay 'pin' thành 'pin_code' hoặc tên cột đúng
+        
+        result = cur.fetchone()
+        return result[0] > 0
+        
+    except Exception as e:
+        print("Error verifying PIN:", e)
+        return False
+        
+    finally:
+        conn.close()
 def withdraw(card_no, amount):
     """Thực hiện rút tiền"""
     conn = get_connection()

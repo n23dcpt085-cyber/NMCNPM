@@ -1,6 +1,6 @@
 # db.py
 import mysql.connector
-from withdraw_module.config import DB_CONFIG
+from .config import DB_CONFIG
 
 def get_connection():
     """Tạo kết nối tới database"""

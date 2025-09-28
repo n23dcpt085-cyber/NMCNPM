@@ -1,21 +1,68 @@
 @startuml
-actor Receptionist
-participant "Hotel System" as System
-participant Room
-participant "Payment System" as Payment
-participant Housekeeping
+' ERD cho Hotel Booking System
 
-Receptionist -> System: Tra cứu mã đặt phòng
-System --> Receptionist: Trả thông tin đặt phòng
+entity "Guest" as Guest {
+  * GuestID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Phone : VARCHAR
+    Email : VARCHAR
+    Address : VARCHAR
+}
 
-== Check-in ==
-Receptionist -> System: Gán phòng cho khách
-System -> Room: Cập nhật trạng thái = Occupied
+entity "RoomType" as RoomType {
+  * TypeID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Price : DECIMAL
+    Capacity : INT
+    Description : TEXT
+}
 
-== Check-out ==
-Receptionist -> System: Yêu cầu tổng hợp chi phí
-System -> Payment: Thu tiền
-Payment --> System: Xác nhận đã thanh toán
-System -> Room: Cập nhật trạng thái = Cleaning
-System -> Housekeeping: Thông báo dọn phòng
+entity "Room" as Room {
+  * RoomID : INT <<PK>>
+  --
+    TypeID : INT <<FK>>
+    RoomNumber : VARCHAR
+    Status : VARCHAR
+    Floor : INT
+}
+
+entity "Staff" as Staff {
+  * StaffID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Role : VARCHAR
+    Username : VARCHAR
+    PasswordHash : VARCHAR
+}
+
+entity "Reservation" as Reservation {
+  * ResvID : INT <<PK>>
+  --
+    GuestID : INT <<FK>>
+    RoomID : INT <<FK>>
+    StaffID : INT <<FK>>
+    CheckInDate : DATE
+    CheckOutDate : DATE
+    Status : VARCHAR
+}
+
+entity "Payment" as Payment {
+  * PaymentID : INT <<PK>>
+  --
+    ResvID : INT <<FK>>
+    Amount : DECIMAL
+    Method : VARCHAR
+    Status : VARCHAR
+    Date : TIMESTAMP
+}
+
+' Quan hệ với ký hiệu 1..N
+Guest ||--o{ Reservation : "1..N"
+RoomType ||--o{ Room : "1..N"
+Room ||--o{ Reservation : "1..N"
+Staff ||--o{ Reservation : "1..N"
+Reservation ||--o{ Payment : "1..N"
+
 @enduml
