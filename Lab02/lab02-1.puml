@@ -1,0 +1,68 @@
+@startuml
+' ERD cho Hotel Booking System
+
+entity "Guest" as Guest {
+  * GuestID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Phone : VARCHAR
+    Email : VARCHAR
+    Address : VARCHAR
+}
+
+entity "RoomType" as RoomType {
+  * TypeID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Price : DECIMAL
+    Capacity : INT
+    Description : TEXT
+}
+
+entity "Room" as Room {
+  * RoomID : INT <<PK>>
+  --
+    TypeID : INT <<FK>>
+    RoomNumber : VARCHAR
+    Status : VARCHAR
+    Floor : INT
+}
+
+entity "Staff" as Staff {
+  * StaffID : INT <<PK>>
+  --
+    Name : VARCHAR
+    Role : VARCHAR
+    Username : VARCHAR
+    PasswordHash : VARCHAR
+}
+
+entity "Reservation" as Reservation {
+  * ResvID : INT <<PK>>
+  --
+    GuestID : INT <<FK>>
+    RoomID : INT <<FK>>
+    StaffID : INT <<FK>>
+    CheckInDate : DATE
+    CheckOutDate : DATE
+    Status : VARCHAR
+}
+
+entity "Payment" as Payment {
+  * PaymentID : INT <<PK>>
+  --
+    ResvID : INT <<FK>>
+    Amount : DECIMAL
+    Method : VARCHAR
+    Status : VARCHAR
+    Date : TIMESTAMP
+}
+
+' Quan hệ với ký hiệu 1..N
+Guest ||--o{ Reservation : "1..N"
+RoomType ||--o{ Room : "1..N"
+Room ||--o{ Reservation : "1..N"
+Staff ||--o{ Reservation : "1..N"
+Reservation ||--o{ Payment : "1..N"
+
+@enduml
